@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GadgetZone Dashboard</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #1e1e2f;
+      color: #fff;
+      padding: 20px;
+      flex-shrink: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 12px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #33334d;
+    }
+
+    /* Main content */
+    .main-content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .search-bar input {
+      padding: 8px 12px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .gadget-grid {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .gadget-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .gadget-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .gadget-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .gadget-card h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .gadget-card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      .main-content {
+        padding: 10px;
+      }
+      .search-bar input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>GadgetZone</h2>
+    <ul>
+      <li>Dashboard</li>
+      <li>Mobiles</li>
+      <li>Laptops</li>
+      <li>Tablets</li>
+      <li>Accessories</li>
+      <li>Settings</li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Electronics Dashboard</h1>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search gadgets..." />
+      </div>
+    </div>
+
+    <div class="gadget-grid" id="gadgetGrid">
+      <!-- Cards will be inserted via JS -->
+    </div>
+  </div>
+
+  <script>
+    const gadgets = [
+      { name: "iPhone 14", category: "Mobiles", image: "https://via.placeholder.com/100x100?text=iPhone", desc: "Latest Apple smartphone" },
+      { name: "Samsung Galaxy S23", category: "Mobiles", image: "https://via.placeholder.com/100x100?text=Galaxy", desc: "Flagship Android device" },
+      { name: "MacBook Pro", category: "Laptops", image: "https://via.placeholder.com/100x100?text=MacBook", desc: "Apple's professional laptop" },
+      { name: "Dell XPS 13", category: "Laptops", image: "https://via.placeholder.com/100x100?text=Dell+XPS", desc: "Compact and powerful laptop" },
+      { name: "iPad Air", category: "Tablets", image: "https://via.placeholder.com/100x100?text=iPad", desc: "Lightweight and fast tablet" },
+      { name: "Sony WH-1000XM5", category: "Accessories", image: "https://via.placeholder.com/100x100?text=Sony+Headphones", desc: "Noise-canceling headphones" },
+      { name: "Apple Watch", category: "Accessories", image: "https://via.placeholder.com/100x100?text=Apple+Watch", desc: "Smartwatch for fitness and productivity" }
+    ];
+
+    const gadgetGrid = document.getElementById("gadgetGrid");
+
+    function displayGadgets(data) {
+      gadgetGrid.innerHTML = '';
+      if (data.length === 0) {
+        gadgetGrid.innerHTML = "<p>No gadgets found.</p>";
+        return;
+      }
+      data.forEach(gadget => {
+        const card = document.createElement('div');
+        card.className = 'gadget-card';
+        card.innerHTML = `
+          <img src="${gadget.image}" alt="${gadget.name}" />
+          <h3>${gadget.name}</h3>
+          <p>${gadget.desc}</p>
+        `;
+        gadgetGrid.appendChild(card);
+      });
+    }
+
+    // Initial display
+    displayGadgets(gadgets);
+
+    // Search filter
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+      const filtered = gadgets.filter(g => g.name.toLowerCase().includes(query) || g.category.toLowerCase().includes(query));
+      displayGadgets(filtered);
+    });
+  </script>
+</body>
+</html>
