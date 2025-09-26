@@ -3,35 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GadgetZone Dashboard</title>
+  <title>Ticket Booking Dashboard</title>
   <style>
-    /* Reset */
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f9;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6fa;
       display: flex;
       min-height: 100vh;
     }
 
-    /* Sidebar */
     .sidebar {
       width: 220px;
-      background-color: #1e1e2f;
-      color: #fff;
+      background-color: #2d2d44;
+      color: white;
       padding: 20px;
-      flex-shrink: 0;
     }
 
     .sidebar h2 {
-      font-size: 22px;
-      margin-bottom: 30px;
       text-align: center;
+      margin-bottom: 30px;
     }
 
     .sidebar ul {
@@ -39,16 +35,15 @@
     }
 
     .sidebar ul li {
-      padding: 12px;
+      padding: 10px;
       cursor: pointer;
       border-radius: 5px;
     }
 
     .sidebar ul li:hover {
-      background-color: #33334d;
+      background-color: #3f3f5c;
     }
 
-    /* Main content */
     .main-content {
       flex-grow: 1;
       padding: 20px;
@@ -61,134 +56,240 @@
     }
 
     .header h1 {
-      font-size: 24px;
       color: #333;
     }
 
-    .search-bar input {
-      padding: 8px 12px;
-      width: 250px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .gadget-grid {
+    .event-grid {
       margin-top: 20px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 20px;
     }
 
-    .gadget-card {
-      background-color: #fff;
+    .event-card {
+      background-color: white;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       padding: 15px;
       text-align: center;
       transition: transform 0.2s;
     }
 
-    .gadget-card:hover {
+    .event-card:hover {
       transform: translateY(-5px);
     }
 
-    .gadget-card img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 10px;
+    .event-card img {
+      width: 100%;
+      border-radius: 5px;
+      height: 140px;
+      object-fit: cover;
     }
 
-    .gadget-card h3 {
+    .event-card h3 {
+      margin: 10px 0 5px;
       font-size: 18px;
-      margin-bottom: 5px;
-      color: #333;
     }
 
-    .gadget-card p {
+    .event-card p {
       font-size: 14px;
-      color: #666;
+      color: #555;
+    }
+
+    .event-card button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .event-card button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Modal styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      width: 300px;
+      position: relative;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 15px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .modal-content button {
+      padding: 10px;
+      width: 100%;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background-color: #218838;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 18px;
+      cursor: pointer;
     }
 
     @media (max-width: 768px) {
       .sidebar {
         display: none;
       }
+
       .main-content {
         padding: 10px;
-      }
-      .search-bar input {
-        width: 100%;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Sidebar -->
   <div class="sidebar">
-    <h2>GadgetZone</h2>
+    <h2>BookItNow</h2>
     <ul>
       <li>Dashboard</li>
-      <li>Mobiles</li>
-      <li>Laptops</li>
-      <li>Tablets</li>
-      <li>Accessories</li>
+      <li>Events</li>
+      <li>My Bookings</li>
+      <li>Account</li>
       <li>Settings</li>
     </ul>
   </div>
 
+  <!-- Main Content -->
   <div class="main-content">
     <div class="header">
-      <h1>Electronics Dashboard</h1>
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search gadgets..." />
-      </div>
+      <h1>Upcoming Events</h1>
     </div>
 
-    <div class="gadget-grid" id="gadgetGrid">
-      <!-- Cards will be inserted via JS -->
+    <div class="event-grid" id="eventGrid">
+      <!-- Event cards injected via JS -->
+    </div>
+  </div>
+
+  <!-- Modal for booking -->
+  <div class="modal" id="bookingModal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2>Book Ticket</h2>
+      <input type="text" id="userName" placeholder="Your Name" />
+      <input type="email" id="userEmail" placeholder="Email Address" />
+      <input type="number" id="ticketCount" placeholder="Number of Tickets" min="1" />
+      <button onclick="confirmBooking()">Confirm Booking</button>
     </div>
   </div>
 
   <script>
-    const gadgets = [
-      { name: "iPhone 14", category: "Mobiles", image: "https://via.placeholder.com/100x100?text=iPhone", desc: "Latest Apple smartphone" },
-      { name: "Samsung Galaxy S23", category: "Mobiles", image: "https://via.placeholder.com/100x100?text=Galaxy", desc: "Flagship Android device" },
-      { name: "MacBook Pro", category: "Laptops", image: "https://via.placeholder.com/100x100?text=MacBook", desc: "Apple's professional laptop" },
-      { name: "Dell XPS 13", category: "Laptops", image: "https://via.placeholder.com/100x100?text=Dell+XPS", desc: "Compact and powerful laptop" },
-      { name: "iPad Air", category: "Tablets", image: "https://via.placeholder.com/100x100?text=iPad", desc: "Lightweight and fast tablet" },
-      { name: "Sony WH-1000XM5", category: "Accessories", image: "https://via.placeholder.com/100x100?text=Sony+Headphones", desc: "Noise-canceling headphones" },
-      { name: "Apple Watch", category: "Accessories", image: "https://via.placeholder.com/100x100?text=Apple+Watch", desc: "Smartwatch for fitness and productivity" }
+    const events = [
+      {
+        name: "Rock Concert 2025",
+        image: "https://via.placeholder.com/300x200?text=Rock+Concert",
+        desc: "Experience electrifying performances live!"
+      },
+      {
+        name: "Football Finals",
+        image: "https://via.placeholder.com/300x200?text=Football+Final",
+        desc: "Catch the ultimate showdown of the season."
+      },
+      {
+        name: "Comedy Night",
+        image: "https://via.placeholder.com/300x200?text=Comedy+Night",
+        desc: "Laugh out loud with top comedians."
+      },
+      {
+        name: "Movie Premiere",
+        image: "https://via.placeholder.com/300x200?text=Movie+Premiere",
+        desc: "Be the first to watch the latest blockbuster."
+      }
     ];
 
-    const gadgetGrid = document.getElementById("gadgetGrid");
+    const eventGrid = document.getElementById("eventGrid");
+    const bookingModal = document.getElementById("bookingModal");
+    const closeModalBtn = document.getElementById("closeModal");
 
-    function displayGadgets(data) {
-      gadgetGrid.innerHTML = '';
-      if (data.length === 0) {
-        gadgetGrid.innerHTML = "<p>No gadgets found.</p>";
-        return;
-      }
-      data.forEach(gadget => {
-        const card = document.createElement('div');
-        card.className = 'gadget-card';
-        card.innerHTML = `
-          <img src="${gadget.image}" alt="${gadget.name}" />
-          <h3>${gadget.name}</h3>
-          <p>${gadget.desc}</p>
-        `;
-        gadgetGrid.appendChild(card);
-      });
+    let selectedEvent = "";
+
+    // Render event cards
+    events.forEach((event, index) => {
+      const card = document.createElement("div");
+      card.className = "event-card";
+      card.innerHTML = `
+        <img src="${event.image}" alt="${event.name}">
+        <h3>${event.name}</h3>
+        <p>${event.desc}</p>
+        <button onclick="openBooking('${event.name}')">Book Now</button>
+      `;
+      eventGrid.appendChild(card);
+    });
+
+    function openBooking(eventName) {
+      selectedEvent = eventName;
+      bookingModal.style.display = "flex";
     }
 
-    // Initial display
-    displayGadgets(gadgets);
-
-    // Search filter
-    document.getElementById("searchInput").addEventListener("input", (e) => {
-      const query = e.target.value.toLowerCase();
-      const filtered = gadgets.filter(g => g.name.toLowerCase().includes(query) || g.category.toLowerCase().includes(query));
-      displayGadgets(filtered);
+    closeModalBtn.addEventListener("click", () => {
+      bookingModal.style.display = "none";
     });
+
+    window.onclick = function(e) {
+      if (e.target === bookingModal) {
+        bookingModal.style.display = "none";
+      }
+    }
+
+    function confirmBooking() {
+      const name = document.getElementById("userName").value.trim();
+      const email = document.getElementById("userEmail").value.trim();
+      const count = document.getElementById("ticketCount").value.trim();
+
+      if (!name || !email || !count || count <= 0) {
+        alert("Please fill in all fields correctly.");
+        return;
+      }
+
+      alert(`🎟️ Booking Confirmed!\n\nEvent: ${selectedEvent}\nName: ${name}\nTickets: ${count}`);
+      bookingModal.style.display = "none";
+
+      // Reset form
+      document.getElementById("userName").value = "";
+      document.getElementById("userEmail").value = "";
+      document.getElementById("ticketCount").value = "";
+    }
   </script>
 </body>
 </html>
